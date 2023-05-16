@@ -102,7 +102,7 @@ app.post("/", upload.single("foto"), (req, res) =>{
 
 //edit data by id
 app.put("/:id", upload.single("image"), (req, res) =>{
-    let param = { id: req.params.id}
+    let param = { id_customer: req.params.id}
     let data = {
         nama : req.body.nama,
         email : req.body.email,
@@ -147,7 +147,7 @@ app.put("/:id", upload.single("image"), (req, res) =>{
 //delete data by id
 app.delete("/:id", (req,res) => {
     let param = {
-        id : req.params.id
+        id_customer : req.params.id
     }
     customer.destroy({where: param})
         .then(result => {

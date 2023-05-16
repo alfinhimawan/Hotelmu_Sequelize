@@ -7,6 +7,7 @@ const FormEditStatus = () => {
 
     let [ubahStatus, setUbahStatus] = useState()
     const { id } = useParams();
+    console.log(id)
     let navigate = useNavigate()
 
     useEffect(() => {

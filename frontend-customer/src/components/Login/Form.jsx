@@ -26,8 +26,8 @@ const Form = () => {
           if(JSON.stringify(res.data.logged) == "true" ){
             sessionStorage.setItem('token', res.data.token)
             sessionStorage.setItem('nama', res.data.data.nama)
-            sessionStorage.setItem('role', res.data.data.role)
-            sessionStorage.setItem('id_customer', res.data.data.id)
+            // sessionStorage.setItem('role', res.data.data.role)
+            sessionStorage.setItem('id_customer', res.data.data.id_customer)
             sessionStorage.setItem('isLogin', "Login")
             navigate('/home')
           }else{

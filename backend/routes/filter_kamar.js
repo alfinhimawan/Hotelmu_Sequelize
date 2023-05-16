@@ -9,7 +9,7 @@ app.use(express.json())
 const models = require("../models/index")
 const Kamar = models.kamar
 const Tp_kamar = models.tipe_kamar
-const Detail_pemesanan = models.detail_pemesanan
+const detail_pemesanan = models.detail_pemesanan
 
 app.post('/', async (req, res) => {
 
@@ -27,14 +27,14 @@ app.post('/', async (req, res) => {
     });
 
     let roomBookedData = await Tp_kamar.findAll({
-        attributes: ["id", "nama_tipe_kamar"],
+        attributes: ["id_tipe_kamar", "nama_tipe_kamar"],
         include: [
             {
                 model: Kamar,
                 as: "kamar",
                 include: [
                     {
-                        model: Detail_pemesanan,
+                        model: detail_pemesanan,
                         as: "detail_pemesanan",
                         attributes: ["tgl_akses"],
                         where: {
@@ -47,6 +47,7 @@ app.post('/', async (req, res) => {
             },
         ],
     });
+    console.log(roomBookedData)
 
     let available = [];
     let availableByType = [];
@@ -76,15 +77,15 @@ app.post('/', async (req, res) => {
         roomType.foto = roomData[i].foto;
         roomType.kamar = [];
         available.forEach((kamar) => {
-            if (kamar.id_tipe_kamar === roomData[i].id) {
-                roomType.kamar.push(kamar);
-            }
+            roomType.kamar.push(kamar);
+            // if (kamar.id_tipe_kamar === roomData[i].id) {
+            // }
         });
-        if (roomType.kamar.length > 0) {
-            availableByType.push(roomType);
-        }
+        availableByType.push(roomType);
+        // if (roomType.kamar.length > 0) {
+        //     console.log(roomType.tipe_kamar.dataValues)
+        // }
     }
-
     return res.json({  room: availableByType });
 })
 

@@ -24,10 +24,10 @@ const Form = () => {
       formData.append("nama", name);
       formData.append("email", email);
       formData.append("password", password);
-      formData.append("image", saveImage);
+      formData.append("foto", saveImage);
   
       let url = "http://localhost:8080/customer";
-  
+      
       if (window.confirm("Selesai Menambahkan Data Baru?")) {
         axios
           .post(url, formData, {

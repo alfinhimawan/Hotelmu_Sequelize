@@ -62,6 +62,7 @@ const Form = () => {
                 status_pemesanan : 'baru',
                 id_user : null
             }
+            console.log(data)
                 
                 if (window.confirm("Selesai Menambahkan Data Baru?")) {
                     axios.post(url, data, {

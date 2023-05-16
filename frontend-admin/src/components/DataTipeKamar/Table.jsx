@@ -63,7 +63,7 @@ function Delete (id) {
         </thead>
         <tbody>
           {tipeKamar.map((tipeKamar, index) => (
-            <tr key={tipeKamar.id}>
+            <tr key={tipeKamar.id_tipe_kamar}>
               {/* <td className="p-4">{tipeKamar.no}</td> */}
               {console.log(tipeKamar)}
               <td className="p-4 ">
@@ -72,8 +72,8 @@ function Delete (id) {
               <td className="p-4">{tipeKamar.nama_tipe_kamar}</td>
               <td className="p-4">{tipeKamar.harga.toLocaleString('id-ID', { style: 'currency', currency: 'IDR' })}</td>
               <td className="flex justify-start items-center p-9">
-                <Link to={`/editDataTipeKamar/${tipeKamar.id}`}><img className='w-4' src={editData} alt="" /></Link>
-                <button onClick={() => Delete(tipeKamar.id)}><img className='w-4 ml-2' src={deleteData} alt="" /></button>
+                <Link to={`/editDataTipeKamar/${tipeKamar.id_tipe_kamar}`}><img className='w-4' src={editData} alt="" /></Link>
+                <button onClick={() => Delete(tipeKamar.id_tipe_kamar)}><img className='w-4 ml-2' src={deleteData} alt="" /></button>
               </td>
             </tr>
           ))}

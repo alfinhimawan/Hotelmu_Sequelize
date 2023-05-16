@@ -53,7 +53,7 @@ app.get("/", (req,res) => {
 
 //get data by id
 app.get("/:id", (req, res) =>{
-    pemesanan.findOne({ where: {id: req.params.id}, 
+    pemesanan.findOne({ where: {id_pemesanan: req.params.id}, 
         include: [
             {
                 model: user, as:'user'
@@ -80,8 +80,8 @@ app.get("/:id", (req, res) =>{
 
 //get order detail by order
 app.get("/idOrder/:id_pemesanan", async (req,res) => {
-    let sql = `select * from pemesanan inner join detail_pemesanan on pemesanan.id = detail_pemesanan.id_pemesanan WHERE pemesanan.id = ${req.params.id_pemesanan};`;
-
+    let sql = `select * from pemesanan inner join detail_pemesanan on pemesanan.id_pemesanan = detail_pemesanan.id_pemesanan WHERE pemesanan.id_pemesanan = ${req.params.id_pemesanan};`;
+    
     try {
         const data = await pemesanan.sequelize.query(sql, {
             model: pemesanan,
@@ -92,36 +92,6 @@ app.get("/idOrder/:id_pemesanan", async (req,res) => {
         res.sendStatus(500)
     }
 })
-
-
-//post data
-// app.post("/", auth, (req,res) => {
-//     let data = {
-//         nomor_pemesanan : req.body.nomor_pemesanan,
-//         nama_pemesanan : req.body.nama_pemesanan,
-//         email_pemesanan : req.body.email_pemesanan,
-//         tgl_pemesanan : req.body.tgl_pemesanan,
-//         tgl_check_in : req.body.tgl_check_in,
-//         tgl_check_out : req.body.tgl_check_out,
-//         nama_tamu : req.body.nama_tamu,
-//         jumlah_kamar : req.body.jumlah_kamar,
-//         id_tipe_kamar : req.body.id_tipe_kamar,
-//         status_pemesanan : req.body.status_pemesanan,
-//         id_user : req.body.id_user
-//     }
-
-//     pemesanan.create(data)
-//         .then(result => {
-//             res.json({
-//                 message: "data has been inserted"
-//             })
-//         })
-//         .catch(error => {
-//             res.json({
-//                 message: error.message
-//             })
-//         })
-// })
 
 app.post('/', async (req, res) => {
     let tw = Date.now()
@@ -151,18 +121,18 @@ app.post('/', async (req, res) => {
 
     // room type data
     let dataTipeKamar = await tipe_kamar.findOne({
-        where: { id: requestData.id_tipe_kamar },
+        where: { id_tipe_kamar: requestData.id_tipe_kamar },
     });
 
     //  booking data
     let dataPemesanan = await tipe_kamar.findAll({
-        attributes: ["id", "nama_tipe_kamar"],
-        where: { id: requestData.id_tipe_kamar },
+        attributes: ["id_tipe_kamar", "nama_tipe_kamar"],
+        where: { id_tipe_kamar: requestData.id_tipe_kamar },
         include: [
             {
                 model: kamar,
                 as: "kamar",
-                attributes: ["id", "id_tipe_kamar"],
+                attributes: ["id_kamar", "id_tipe_kamar"],
                 include: [
                     {
                         model: detail_pemesanan,
@@ -217,8 +187,8 @@ app.post('/', async (req, res) => {
                         let tgl_akses = new Date(checkInDate);
                         tgl_akses.setDate(tgl_akses.getDate() + i);
                         let requestDataDetail = {
-                            id_pemesanan: result.id,
-                            id_kamar: roomsDataSelected[j].id,
+                            id_pemesanan: result.id_pemesanan,
+                            id_kamar: roomsDataSelected[j].id_kamar,
                             tgl_akses: tgl_akses,
                             harga: dataTipeKamar.harga,
                         };
@@ -242,7 +212,7 @@ app.post('/', async (req, res) => {
 //edit data by id
 app.put("/:id", (req,res) => {
     let param = {
-        id : req.params.id
+        id_pemesanan : req.params.id
     }
     let data = {
         nomor_pemesanan : req.body.nomor_pemesanan,
@@ -273,7 +243,7 @@ app.put("/:id", (req,res) => {
 //delete data by id
 app.delete("/:id",(req,res) => {
     let param = {
-        id : req.params.id
+        id_pemesanan : req.params.id
     }
     pemesanan.destroy({where: param})
         .then(result => {

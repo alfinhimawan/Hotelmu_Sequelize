@@ -81,14 +81,14 @@ const Table = () => {
             </thead>
             <tbody>
                 {kamar.kamar?.map((kamar, index) => (
-                    <tr key={kamar.id}>
+                    <tr key={kamar.id_kamar}>
                         {/* <td className='p-4'>{kamar.no}</td> */}
                         <td className='p-4'>{kamar.nomor_kamar}</td>
                         <td className='p-4'>{kamar.tipe_kamar.nama_tipe_kamar}</td>
                         {/* <td className='p-4'>{kamar.id_tipe_kamar}</td> */}
                         <td className='flex justify-start items-center p-4'>
-                            <Link to={`/editDataKamar/${kamar.id}`}><img className='w-4' src={editData} alt="" /></Link>
-                            <button onClick={() => Delete(kamar.id)}><img className='w-4 ml-2' src={deleteData} alt="" /></button>
+                            <Link to={`/editDataKamar/${kamar.id_kamar}`}><img className='w-4' src={editData} alt="" /></Link>
+                            <button onClick={() => Delete(kamar.id_kamar)}><img className='w-4 ml-2' src={deleteData} alt="" /></button>
                         </td>
                     </tr>
                 ))

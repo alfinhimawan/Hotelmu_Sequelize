@@ -83,7 +83,7 @@ const FormEditDataKamar = () => {
                     <label htmlFor="checkIn" className='text-gray'>Nama Tipe Kamar</label>
                     <select onChange={(e) => setIdTipeKamar(e.target.value)} value={idTipeKamar} type="text" name='checkIn' placeholder='Masukkan Nama Kamar' className="bg-form p-4 border-r-[16px] border-r-[#f6f6f6] mt-2">
                         {TipeKamar?.tipe_kamar.map(item => (
-                            <option key={item.id} value={item.id}>{item.nama_tipe_kamar}</option>
+                            <option key={item.id_tipe_kamar} value={item.id_tipe_kamar}>{item.nama_tipe_kamar}</option>
                         ))}
                     </select>
                 </div>

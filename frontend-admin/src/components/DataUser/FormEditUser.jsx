@@ -60,7 +60,7 @@ const FormEditUser = () => {
 
     let url = `http://localhost:8080/user/${id}`;
 
-    if (window.confirm("Selesai Menambahkan Data Baru?")) {
+    if (window.confirm("Selesai Update Data?")) {
       axios
         .put(url, formData, {
           headers: {

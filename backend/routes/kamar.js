@@ -34,7 +34,7 @@ app.get("/", (req,res) => {
 
 //get data by id
 app.get("/:id", (req, res) =>{
-    kamar.findOne({ where: {id: req.params.id}})
+    kamar.findOne({ where: {id_kamar: req.params.id}})
     .then(result => {
         res.json({
             kamar: result
@@ -71,7 +71,7 @@ app.post("/", (req,res) => {
 //edit data by id
 app.put("/:id", (req,res) => {
     let param = {
-        id : req.params.id
+        id_kamar : req.params.id
     }
     let data = {
         nomor_kamar : req.body.nomor_kamar,
@@ -93,7 +93,7 @@ app.put("/:id", (req,res) => {
 //delete data by id
 app.delete("/:id", (req,res) => {
     let param = {
-        id : req.params.id
+        id_kamar : req.params.id
     }
     kamar.destroy({where: param})
         .then(result => {

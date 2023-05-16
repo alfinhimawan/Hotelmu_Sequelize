@@ -32,7 +32,7 @@ const ListPemesanan = () => {
 
       <div className="flex flex-col mt-14">
         {riwayat?.map((riwayat, i) => (
-          <Link to={`/rincianPemesanan/${riwayat.id}`} className={`mt-5 w-full px-4 py-6 stroke-form`}>
+          <Link to={`/rincianPemesanan/${riwayat.id_pemesanan}`} className={`mt-5 w-full px-4 py-6 stroke-form`}>
               <div className="flex justify-between">
                 <h1 className="text-base font-medium">Nomor Pemesanan {riwayat.nomor_pemesanan}</h1>
                 <div className="px-3 py-2 bg-orange text-orange rounded-lg">

@@ -67,7 +67,7 @@ function Delete (id) {
             </thead>
             <tbody>
                 {pemesanan.map((pemesanan, index) => (
-                    <tr key={pemesanan.id}>
+                    <tr key={pemesanan.id_pemesanan}>
                         {/* <td className='p-4'>{pemesanan.no}</td> */}
                         <td className='p-4'>{pemesanan.nomor_pemesanan}</td>
                         <td className='p-4'>{pemesanan.customer.nama}</td>
@@ -79,7 +79,7 @@ function Delete (id) {
                         <td className='p-4'>{pemesanan.jumlah_kamar}</td>
                         <td className='p-4'>{pemesanan.status_pemesanan}</td>
                         <td className='flex justify-start items-center p-6 my-auto'>
-                          <Link to={`/editPemesanan/${pemesanan.id}`}><img className='w-4' src={editData} alt="" /></Link>
+                          <Link to={`/editPemesanan/${pemesanan.id_pemesanan}`}><img className='w-4' src={editData} alt="" /></Link>
                         </td>
                     </tr>
                 ))

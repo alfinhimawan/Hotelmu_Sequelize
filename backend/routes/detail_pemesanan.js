@@ -33,7 +33,7 @@ app.get("/", (req,res) => {
 
 //get data by id
 app.get("/:id", (req, res) =>{
-    detail_pemesanan.findOne({ where: {id: req.params.id}})
+    detail_pemesanan.findOne({ where: {id_pemesanan: req.params.id}})
     .then(result => {
         res.json({
             detail_pemesanan: result
@@ -71,7 +71,7 @@ app.post("/", (req,res) => {
 //edit data by id
 app.put("/:id", (req,res) => {
     let param = {
-        id : req.params.id
+        id_pemesanan : req.params.id
     }
     let data = {
         id_pemesanan : req.body.id_pemesanan,
@@ -95,7 +95,7 @@ app.put("/:id", (req,res) => {
 //delete data by id
 app.delete("/:id", (req,res) => {
     let param = {
-        id : req.params.id
+        id_pemesanan : req.params.id
     }
     detail_pemesanan.destroy({where: param})
         .then(result => {

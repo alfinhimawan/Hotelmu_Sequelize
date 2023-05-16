@@ -105,6 +105,7 @@ useEffect(() => {
       })
     }, [])
     
+    console.log(ordersDet)
     const arrPrice = ordersDet.map((item) => {
         return item.harga
     })
