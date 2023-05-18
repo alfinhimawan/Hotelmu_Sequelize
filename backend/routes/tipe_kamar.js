@@ -35,7 +35,7 @@ const jwt = require("jsonwebtoken")
 const SECRET_KEY = "TryMe"
 
 //get data
-app.get("/", (req,res) => {
+app.get("/", auth, (req,res) => {
     tipe_kamar.findAll()
         .then(result => {
             res.json({
@@ -65,7 +65,7 @@ app.get("/:id", (req, res) =>{
 })
 
 //post data
-app.post("/", upload.single("foto"), (req, res) =>{
+app.post("/", upload.single("foto"), auth, (req, res) =>{
     if (!req.file) {
         res.json({
             message: "No uploaded file"
@@ -93,7 +93,7 @@ app.post("/", upload.single("foto"), (req, res) =>{
 })
 
 //edit data by id
-app.put("/:id", upload.single("foto"), (req, res) =>{
+app.put("/:id", upload.single("foto"), auth, (req, res) =>{
     let param = { id_tipe_kamar: req.params.id}
     let data = {
         nama_tipe_kamar : req.body.nama_tipe_kamar,
@@ -132,7 +132,7 @@ app.put("/:id", upload.single("foto"), (req, res) =>{
 })
 
 //delete data by id
-app.delete("/:id", (req,res) => {
+app.delete("/:id", auth, (req,res) => {
     let param = {
         id_tipe_kamar : req.params.id
     }

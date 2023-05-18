@@ -9,7 +9,8 @@ const ListPemesanan = () => {
   let [riwayat, setRiwayat] = useState()
 
   useEffect(() => {
-    axios.get(`http://localhost:8080/pemesanan`, {
+    let id_customer = window.sessionStorage.getItem("id_customer")
+    axios.get(`http://localhost:8080/pemesanan/findById/${id_customer}`, {
         headers : {'Authorization' : 'Bearer ' + sessionStorage.getItem('token')}
     })
     .then(res => {

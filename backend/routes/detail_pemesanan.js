@@ -17,7 +17,7 @@ const jwt = require("jsonwebtoken")
 const SECRET_KEY = "TryMe"
 
 //get data
-app.get("/", (req,res) => {
+app.get("/", auth, (req,res) => {
     detail_pemesanan.findAll()
         .then(result => {
             res.json({
@@ -33,7 +33,7 @@ app.get("/", (req,res) => {
 
 //get data by id
 app.get("/:id", (req, res) =>{
-    detail_pemesanan.findOne({ where: {id_pemesanan: req.params.id}})
+    detail_pemesanan.findOne({ where: {id_detail_pemesanan: req.params.id}})
     .then(result => {
         res.json({
             detail_pemesanan: result
@@ -47,9 +47,9 @@ app.get("/:id", (req, res) =>{
 })
 
 //post data
-app.post("/", (req,res) => {
+app.post("/", auth, (req,res) => {
     let data = {
-        id_pemesanan : req.body.id_pemesanan,
+        id_detail_pemesanan : req.body.id_detail_pemesanan,
         id_kamar : req.body.id_kamar,
         tgl_akses : req.body.tgl_akses,
         harga : req.body.harga
@@ -69,12 +69,12 @@ app.post("/", (req,res) => {
 })
 
 //edit data by id
-app.put("/:id", (req,res) => {
+app.put("/:id", auth, (req,res) => {
     let param = {
-        id_pemesanan : req.params.id
+        id_detail_pemesanan : req.params.id
     }
     let data = {
-        id_pemesanan : req.body.id_pemesanan,
+        id_detail_pemesanan : req.body.id_detail_pemesanan,
         id_kamar : req.body.id_kamar,
         tgl_akses : req.body.tgl_akses,
         harga : req.body.harga
@@ -93,9 +93,9 @@ app.put("/:id", (req,res) => {
 })
 
 //delete data by id
-app.delete("/:id", (req,res) => {
+app.delete("/:id", auth, (req,res) => {
     let param = {
-        id_pemesanan : req.params.id
+        id_detail_pemesanan : req.params.id
     }
     detail_pemesanan.destroy({where: param})
         .then(result => {

@@ -50,7 +50,7 @@ const FormEditStatus = () => {
   return (
     <div className='flex flex-col p-8 stroke-box mt-14 w-full'>
         <div className='mt-4 stroke-form'>
-            <h1 className='text-xl font-semibold mb-4'>Edit Data Kamar</h1>
+            <h1 className='text-xl font-semibold mb-4'>Edit Data Pemesanan</h1>
         </div>
 
         <form onSubmit={Edit} className='flex flex-col mb-4 mt-4 stroke-form'>

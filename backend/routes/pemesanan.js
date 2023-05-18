@@ -25,7 +25,7 @@ const sequelize = require(`sequelize`);
 const operator = sequelize.Op;
 
 //get data
-app.get("/", (req,res) => {
+app.get("/", auth, (req,res) => {
     pemesanan.findAll({
         include: [
             {
@@ -50,6 +50,33 @@ app.get("/", (req,res) => {
             })
         })
 })
+
+app.get("/findById/:id", auth, (req,res) => {
+    pemesanan.findAll({ where: {id_customer: req.params.id},
+        include: [
+            {
+                model: user, as:'user'
+            },
+            {
+                model: tipe_kamar, as:'tipe_kamar'
+            },
+            {
+                model: customer, as:'customer'
+            }
+        ]
+    })
+        .then(result => {
+            res.json({
+                pemesanan : result
+            })
+        })
+        .catch(error => {
+            res.json({
+                message: error.message
+            })
+        })
+})
+
 
 //get data by id
 app.get("/:id", (req, res) =>{
@@ -80,7 +107,8 @@ app.get("/:id", (req, res) =>{
 
 //get order detail by order
 app.get("/idOrder/:id_pemesanan", async (req,res) => {
-    let sql = `select * from pemesanan inner join detail_pemesanan on pemesanan.id_pemesanan = detail_pemesanan.id_pemesanan WHERE pemesanan.id_pemesanan = ${req.params.id_pemesanan};`;
+    let sql = `select * from pemesanan inner join detail_pemesanan on pemesanan.id_pemesanan = detail_pemesanan.id_pemesanan WHERE pemesanan.id_pemesanan  = ${req.params.id_pemesanan}` ;
+
     
     try {
         const data = await pemesanan.sequelize.query(sql, {
@@ -210,7 +238,7 @@ app.post('/', async (req, res) => {
 })
 
 //edit data by id
-app.put("/:id", (req,res) => {
+app.put("/:id", auth, (req,res) => {
     let param = {
         id_pemesanan : req.params.id
     }
@@ -241,7 +269,7 @@ app.put("/:id", (req,res) => {
 })
 
 //delete data by id
-app.delete("/:id",(req,res) => {
+app.delete("/:id", auth, (req,res) => {
     let param = {
         id_pemesanan : req.params.id
     }

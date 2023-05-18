@@ -58,7 +58,7 @@ app.post("/auth", async (req,res) => {
 
 
 //get data
-app.get("/", (req,res) => {
+app.get("/", auth, (req,res) => {
     customer.findAll()
         .then(result => {
             res.json({
@@ -101,7 +101,7 @@ app.post("/", upload.single("foto"), (req, res) =>{
 
 
 //edit data by id
-app.put("/:id", upload.single("foto"), (req, res) =>{
+app.put("/:id", upload.single("foto"), auth, (req, res) =>{
     let param = { id_customer: req.params.id}
     let data = {
         nama : req.body.nama,
@@ -145,7 +145,7 @@ app.put("/:id", upload.single("foto"), (req, res) =>{
 
 
 //delete data by id
-app.delete("/:id", (req,res) => {
+app.delete("/:id", auth, (req,res) => {
     let param = {
         id_customer : req.params.id
     }

@@ -58,7 +58,7 @@ app.post("/auth", async (req,res) => {
 
 
 //get data
-app.get("/", (req,res) => {
+app.get("/", auth, (req,res) => {
     user.findAll()
         .then(result => {
             res.json({
@@ -73,7 +73,7 @@ app.get("/", (req,res) => {
 })
 
 //get data by id
-app.get("/:id", (req, res) =>{
+app.get("/:id", auth, (req, res) =>{
     user.findOne({ where: {id_user: req.params.id}})
     .then(result => {
         res.json({
@@ -88,7 +88,7 @@ app.get("/:id", (req, res) =>{
 })
 
 //post data
-app.post("/", upload.single("foto"), (req, res) =>{
+app.post("/", upload.single("foto"), auth, (req, res) =>{
     if (!req.file) {
         res.json({
             message: "No uploaded file"
@@ -117,7 +117,7 @@ app.post("/", upload.single("foto"), (req, res) =>{
 
 
 //edit data by id
-app.put("/:id", upload.single("foto"), (req, res) =>{
+app.put("/:id", upload.single("foto"), auth, (req, res) =>{
     let param = { id_user: req.params.id}
     let data = {
         nama_user : req.body.nama_user,
@@ -161,7 +161,7 @@ app.put("/:id", upload.single("foto"), (req, res) =>{
 
 
 //delete data by id
-app.delete("/:id", (req,res) => {
+app.delete("/:id", auth, (req,res) => {
     let param = {
         id_user : req.params.id
     }
