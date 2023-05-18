@@ -28,9 +28,11 @@ const Table = () => {
     })
 }, [])
 
+
 function Delete (id) {
   let url = "http://localhost:8080/pemesanan/" + id
   if(window.confirm("Apakah Anda Yakin Untuk Menghapus Data?")){
+    // console.log(id)
       axios.delete(url, {
           headers : {'Authorization' : 'Bearer ' + sessionStorage.getItem('token')}
       })
@@ -80,6 +82,7 @@ function Delete (id) {
                         <td className='p-4'>{pemesanan.status_pemesanan}</td>
                         <td className='flex justify-start items-center p-6 my-auto'>
                           <Link to={`/editPemesanan/${pemesanan.id_pemesanan}`}><img className='w-4' src={editData} alt="" /></Link>
+                          <button onClick={() => Delete(pemesanan.id_pemesanan)}><img className='w-4 ml-2' src={deleteData} alt="" /></button>
                         </td>
                     </tr>
                 ))

@@ -101,7 +101,7 @@ app.post("/", upload.single("foto"), (req, res) =>{
 
 
 //edit data by id
-app.put("/:id", upload.single("image"), (req, res) =>{
+app.put("/:id", upload.single("foto"), (req, res) =>{
     let param = { id_customer: req.params.id}
     let data = {
         nama : req.body.nama,
