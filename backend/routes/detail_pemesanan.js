@@ -32,7 +32,7 @@ app.get("/", auth, (req,res) => {
 })
 
 //get data by id
-app.get("/:id", (req, res) =>{
+app.get("/:id", auth, (req, res) =>{
     detail_pemesanan.findOne({ where: {id_detail_pemesanan: req.params.id}})
     .then(result => {
         res.json({

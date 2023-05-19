@@ -50,7 +50,7 @@ app.get("/", auth, (req,res) => {
 })
 
 //get data by id
-app.get("/:id", (req, res) =>{
+app.get("/:id", auth, (req, res) =>{
     tipe_kamar.findOne({ where: {id_tipe_kamar: req.params.id}})
     .then(result => {
         res.json({

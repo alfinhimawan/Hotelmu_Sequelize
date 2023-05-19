@@ -73,7 +73,7 @@ app.get("/", auth, (req,res) => {
 })
 
 //post data
-app.post("/", upload.single("foto"), (req, res) =>{
+app.post("/", upload.single("foto"), auth, (req, res) =>{
     if (!req.file) {
         res.json({
             message: "No uploaded file"

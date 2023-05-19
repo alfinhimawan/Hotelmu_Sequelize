@@ -79,7 +79,7 @@ app.get("/findById/:id", auth, (req,res) => {
 
 
 //get data by id
-app.get("/:id", (req, res) =>{
+app.get("/:id", auth, (req, res) =>{
     pemesanan.findOne({ where: {id_pemesanan: req.params.id}, 
         include: [
             {

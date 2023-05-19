@@ -1,14 +1,32 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { arrowLeftRekomendasi, arrowRightRekomendasi, capacity, tipe } from '../../assets'
 import { DummyRoom } from '../../constants'
+import axios from 'axios'
 
 const Rekomendasi = () => {
+
+  let [tipeKamar, setTipeKamar] = useState([]);
+
+  useEffect(() => {
+    axios.get(`http://localhost:8080/tipe_kamar`, {
+        headers : {'Authorization' : 'Bearer ' + sessionStorage.getItem('token')}
+    })
+    .then(res => {
+        console.log(res.data.tipe_kamar)
+        setTipeKamar(res.data.tipe_kamar)
+    })
+    .catch(error => { 
+    console.log(error)
+    })
+}, [])
+
+
   return (
     <div className='mt-20 flex flex-col'>
       <div className='flex justify-between'>
         <div className=''>
           <h1 className='text-xl font-medium'>Rekomendasi Kamar Terbaik!</h1>
-          <p className='text-sm text-gray'>8 Rekomendasi Tersedia</p>
+          <p className='text-sm text-gray'>5 Rekomendasi Tersedia</p>
         </div>
         <div className='flex'>
           <img className='w-6 h-6 mr-4' src={arrowLeftRekomendasi} alt="arrowLeft" />
@@ -17,23 +35,22 @@ const Rekomendasi = () => {
       </div>
 
       <div className='flex justify-between mt-10'>
-        {DummyRoom.map((room, i) => (
-          <div className='flex-col' key={i}>
-            {/* <div className='w-[360px] h-[341px]'>{room.Image}</div> */}
-            <img  className='w-96 ' src={room.Image} alt="" />
+      {tipeKamar.map((tipeKamar, index) => (
+          <div className='flex-col ml-6 mr-5 ' key={tipeKamar.id_tipe_kamar} >
+            <img  className='w-96 rounded-xl ' src={`http://localhost:8080/image/tipe_kamar/${tipeKamar.foto}`} alt="" />
             <div className='mt-6'> 
-              <h1 className='text-base font-semibold'>{room.title}</h1>
-              <p className='text-sm mt-2'>{room.price}</p>
-              {/* <div className='flex justify-start items-center mt-4'>
+              <h1 className='text-base font-semibold'>{tipeKamar.nama_tipe_kamar}</h1>
+              <p className='text-sm mt-2'>{tipeKamar.harga.toLocaleString('id-ID', { style: 'currency', currency: 'IDR' })}</p>
+              <div className='flex justify-start items-center mt-4'>
                 <div className='flex justify-center items-center'>
                   <img src={capacity} className='w-5' alt="kapasitas" />
-                  <p className='ml-2'>{room.capacity}</p>
+                  <p className='ml-2'>2</p>
                 </div>
                 <div className='flex justify-center items-center ml-6'>
                   <img src={tipe} className='w-5' alt="tipe" />
-                  <p className='ml-2'>{room.type}</p>
+                  <p className='ml-2'>2</p>
                 </div>
-            </div> */}
+            </div>
             </div>
           </div>
         ))}
@@ -42,4 +59,4 @@ const Rekomendasi = () => {
   )
 }
 
-export default Rekomendasi
+export default Rekomendasi
