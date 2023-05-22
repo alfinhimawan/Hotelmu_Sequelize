@@ -26,7 +26,7 @@ const Rekomendasi = () => {
       <div className='flex justify-between'>
         <div className=''>
           <h1 className='text-xl font-medium'>Rekomendasi Kamar Terbaik!</h1>
-          <p className='text-sm text-gray'>5 Rekomendasi Tersedia</p>
+          <p className='text-sm text-gray'>6 Rekomendasi Tersedia</p>
         </div>
         <div className='flex'>
           <img className='w-6 h-6 mr-4' src={arrowLeftRekomendasi} alt="arrowLeft" />

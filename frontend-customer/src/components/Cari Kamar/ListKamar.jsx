@@ -24,7 +24,7 @@ const ListKamar = ({ data }) => {
       <div className="flex justify-between flex-wrap">
         {data.map((room, i) => {
           return (
-            <Link to={`/detailKamar/${room.kamar[0].id_tipe_kamar}`} className="flex-col  mt-14" key={i}>
+            <Link to={`/detailKamar/${room.id_tipe_kamar}`} className="flex-col  mt-14" key={i}>
             {/* <div className='w-[360px] h-[341px]'>{room.Image}</div> */}
             <img className="w-96 h-60 object-center object-cover rounded-lg" src={`http://localhost:8080/image/tipe_kamar/${room.foto}`} alt="" />
             <div className="mt-6">

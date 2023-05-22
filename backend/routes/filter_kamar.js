@@ -70,7 +70,7 @@ app.post('/', async (req, res) => {
 
     for (let i = 0; i < roomData.length; i++) {
         let roomType = {};
-        roomType.id_tipe_kamar = roomData[i].id;
+        roomType.id_tipe_kamar = roomData[i].id_tipe_kamar;
         roomType.nama_tipe_kamar = roomData[i].nama_tipe_kamar;
         roomType.harga = roomData[i].harga;
         roomType.deskripsi = roomData[i].deskripsi;

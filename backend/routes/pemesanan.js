@@ -121,7 +121,7 @@ app.get("/idOrder/:id_pemesanan", async (req,res) => {
     }
 })
 
-app.post('/', async (req, res) => {
+app.post('/',  async (req, res) => {
     let tw = Date.now()
 
     let numberRandom = Math.floor(Math.random() * (10000000 - 99999999) + 99999999);
