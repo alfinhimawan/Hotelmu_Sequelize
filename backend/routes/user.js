@@ -11,6 +11,8 @@ const multer = require("multer")
 const path = require("path")
 const fs = require("fs")
 
+const { Op } = require("sequelize")
+
 //import model
 const models = require("../models/index")
 const user = models.user
@@ -56,7 +58,6 @@ app.post("/auth", async (req,res) => {
     }
 })
 
-
 //get data
 app.get("/", auth, (req,res) => {
     user.findAll()
@@ -87,6 +88,28 @@ app.get("/:id", auth, (req, res) =>{
     })
 })
 
+//search data by nama_user
+app.post("/search", auth, (req, res) => {
+    user
+      .findAll({
+        where: {
+          [Op.or]: [
+            { nama_user: { [Op.like]: "%" + req.body.nama_user + "%" } },
+          ],
+        },
+      })
+      .then((result) => {
+        res.json({
+          user: result,
+        });
+      })
+      .catch((error) => {
+        res.json({
+          message: error.message,
+        });
+      });
+});
+
 //post data
 app.post("/", upload.single("foto"), auth, (req, res) =>{
     if (!req.file) {
@@ -114,7 +137,6 @@ app.post("/", upload.single("foto"), auth, (req, res) =>{
         })
     }
 })
-
 
 //edit data by id
 app.put("/:id", upload.single("foto"), auth, (req, res) =>{
@@ -158,7 +180,6 @@ app.put("/:id", upload.single("foto"), auth, (req, res) =>{
             })
         })
 })
-
 
 //delete data by id
 app.delete("/:id", auth, (req,res) => {

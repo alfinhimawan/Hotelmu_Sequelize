@@ -60,7 +60,7 @@ const Form = () => {
                 </div>
                 <div className='mt-6'>
                     <label htmlFor="pass">Password</label>
-                    <input onChange={(e) => setPassword(e.target.value)} value={password} type="password" name='pass' placeholder='Masukkan Password' className='mt-1 p-4 stroke-form w-full' required />
+                    <input onChange={(e) => setPassword(e.target.value)} value={password} type="password" name='pass' placeholder='Masukkan Password' className='mt-1 p-4 stroke-form w-full' required  />
                 </div>
                 <form action="" className='mt-6'>
                     <input type="checkbox" name='ingat'/>

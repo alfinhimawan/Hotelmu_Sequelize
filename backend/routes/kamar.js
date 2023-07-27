@@ -7,6 +7,8 @@ const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 
+const { Op } = require("sequelize")
+
 //import model
 const model = require('../models/index');
 const kamar = model.kamar
@@ -47,6 +49,28 @@ app.get("/:id", auth, (req, res) =>{
     })
 })
 
+//search data by nomor_kamar
+app.post("/search", auth, (req, res) => {
+    kamar
+      .findAll({
+        include: [{model: tipe_kamar, as:'tipe_kamar'}],
+        where: {
+          [Op.or]: [
+            { nomor_kamar: req.body.nomor_kamar},
+          ],
+        },
+      })
+      .then((result) => {
+        res.json({
+          kamar: result,
+        });
+      })
+      .catch((error) => {
+        res.json({
+          message: error.message,
+        });
+      });
+  });
 
 //post data
 app.post("/", auth, (req,res) => {

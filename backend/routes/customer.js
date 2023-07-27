@@ -56,7 +56,6 @@ app.post("/auth", async (req,res) => {
     }
 })
 
-
 //get data
 app.get("/", auth, (req,res) => {
     customer.findAll()
@@ -98,7 +97,6 @@ app.post("/", upload.single("foto"), auth, (req, res) =>{
         })
     }
 })
-
 
 //edit data by id
 app.put("/:id", upload.single("foto"), auth, (req, res) =>{
@@ -142,7 +140,6 @@ app.put("/:id", upload.single("foto"), auth, (req, res) =>{
             })
         })
 })
-
 
 //delete data by id
 app.delete("/:id", auth, (req,res) => {
