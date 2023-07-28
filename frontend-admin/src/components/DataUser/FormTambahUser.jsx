@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 
 const FormTambahUser = () => {
-  let [foto, setFoto] = useState()
+  let [foto, setFoto] = useState();
   let [saveImage, setSaveImage] = useState();
   let [namaUser, setNamaUser] = useState();
   let [email, setEmail] = useState();
@@ -14,7 +14,7 @@ const FormTambahUser = () => {
   function handleUploadChange(e) {
     console.log(e.target.files[0]);
     let uploaded = e.target.files[0];
-    setFoto(URL.createObjectURL(uploaded))
+    setFoto(URL.createObjectURL(uploaded));
     setSaveImage(uploaded);
   }
 
@@ -56,7 +56,7 @@ const FormTambahUser = () => {
         });
     }
   }
-  
+
   return (
     <div className="flex flex-col p-8 stroke-box mt-14 w-full">
       <div className="mt-4 stroke-form">
@@ -137,15 +137,17 @@ const FormTambahUser = () => {
           </div>
         </div>
         <div className="w-full flex">
-            <button className="w-1/2 h-[52px] text-blue primary-stroke rounded-lg hidden sm:block mt-4">
+          <Link
+            to="/dataUser"
+            className="w-1/2 h-[52px] text-blue primary-stroke rounded-lg hidden sm:flex mt-4 sm:justify-center sm:items-center "
+          >
             Kembali
-            </button>
-            <button className="w-1/2 h-[52px] text-white primary-bg rounded-lg hidden sm:block mt-4 ml-4">
+          </Link>
+          <button className="w-1/2 h-[52px] text-white primary-bg rounded-lg hidden sm:block mt-4 ml-4">
             Tambah
-            </button>
+          </button>
         </div>
       </form>
-
 
       <p className="text-center text-sm text-gray mt-4">
         Pastikan Semua Data Telah Terisi Dengan Benar

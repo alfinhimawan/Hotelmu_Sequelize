@@ -125,7 +125,7 @@ const Table = () => {
         <button>
           <Link
             className="p-4 text-white primary-bg rounded-lg hidden mb-4 sm:block"
-            to="/addDataTipeKamar"
+            to="/addDataKamar"
           >
             Tambah Data
           </Link>

@@ -166,11 +166,11 @@ const Detail = () => {
         </button>
       </div>
 
-      <div>
+      {/* <div>
         <p className="text-lg text-gray mt-4 text-center">
           Pastikan Semua Data Telah Terisi Dengan Benar
         </p>
-      </div>
+      </div> */}
     </div>
   );
 };
