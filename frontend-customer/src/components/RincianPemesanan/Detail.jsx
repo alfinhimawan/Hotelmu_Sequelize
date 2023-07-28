@@ -16,7 +16,7 @@ const Detail = () => {
           },
         })
         .then((res) => {
-          console.log("jkk", res.data);
+          console.log(res.data);
           setPemesanan(res.data);
         })
         .catch((error) => {
