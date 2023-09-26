@@ -72,7 +72,7 @@ app.get("/", auth, (req,res) => {
 })
 
 //post data
-app.post("/", upload.single("foto"), auth, (req, res) =>{
+app.post("/", upload.single("foto"),  (req, res) =>{
     if (!req.file) {
         res.json({
             message: "No uploaded file"
@@ -142,7 +142,7 @@ app.put("/:id", upload.single("foto"), auth, (req, res) =>{
 })
 
 //delete data by id
-app.delete("/:id", auth, (req,res) => {
+app.delete("/:id",  (req,res) => {
     let param = {
         id_customer : req.params.id
     }

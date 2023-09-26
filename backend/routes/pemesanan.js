@@ -189,7 +189,7 @@ app.post("/search", auth, (req, res) => {
     });
 });
 
-app.post("/", async (req, res) => {
+app.post("/", auth, async (req, res) => {
   let tw = Date.now();
 
   let numberRandom = Math.floor(

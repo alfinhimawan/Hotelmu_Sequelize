@@ -19,7 +19,7 @@ const Detail = () => {
           console.log(res.data);
           setPemesanan(res.data);
         })
-        .catch((error) => {
+        .catch((error) => {ggghn
           console.log(error);
         });
     }
