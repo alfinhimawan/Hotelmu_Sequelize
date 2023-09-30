@@ -2,10 +2,13 @@ import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { deleteData, editData } from "../../assets";
 import axios from "axios";
+import "./style/stylesUser.css"; // Impor file CSS Anda di sini
 
 const Table = () => {
   let [user, setUser] = useState([]);
   let [search, setSearch] = useState([]);
+  let [currentPage, setCurrentPage] = useState(1);
+  let [itemsPerPage, setItemsPerPage] = useState(3);
   let navigate = useNavigate();
 
   useEffect(() => {
@@ -98,6 +101,20 @@ const Table = () => {
     // window.location.reload(false);
   }
 
+  // Pagination
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = user.slice(indexOfFirstItem, indexOfLastItem);
+
+  const pageNumbers = [];
+  for (let i = 1; i <= Math.ceil(user.length / itemsPerPage); i++) {
+    pageNumbers.push(i);
+  }
+
+  const paginate = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
+
   return (
     <div className="p-4 mt-14 ">
       <div className="flex items-center justify-between">
@@ -174,16 +191,54 @@ const Table = () => {
         </tbody>
       </table>
 
-      <div className="flex">
-        <div className="flex mt-14">
-          <p className="text-base text-gray">
-            Menampilkan{" "}
-            <span className="text-black">
-              {user !== undefined ? user?.length : ""}
-            </span>{" "}
-            Data
-          </p>
-        </div>
+
+      <div className="flex justify-center mt-4">
+        <ul className="pagination">
+          {currentPage > 1 && (
+            <li className="page-item">
+              <button
+                onClick={() => paginate(currentPage - 1)}
+                className="page-link"
+              >
+                {"<"}
+              </button>
+            </li>
+          )}
+
+          {pageNumbers.map((number) => (
+            <li key={number} className="page-item">
+              <button
+                onClick={() => paginate(number)}
+                className={`page-link ${
+                  currentPage === number ? "active-3" : ""
+                }`}
+              >
+                {number}
+              </button>
+            </li>
+          ))}
+
+          {currentPage < pageNumbers.length && (
+            <li className="page-item">
+              <button
+                onClick={() => paginate(currentPage + 1)}
+                className="page-link"
+              >
+                {">"}
+              </button>
+            </li>
+          )}
+        </ul>
+      </div>
+
+      <div className="flex mt-14">
+        <p className="text-base text-gray">
+          Menampilkan{" "}
+          <span className="text-black">
+            {user !== undefined ? user?.length : ""}
+          </span>{" "}
+          Data
+        </p>
       </div>
     </div>
   );

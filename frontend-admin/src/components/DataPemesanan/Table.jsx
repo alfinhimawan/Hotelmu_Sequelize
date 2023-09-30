@@ -3,11 +3,14 @@ import { Link, useNavigate } from "react-router-dom";
 import { deleteData, editData } from "../../assets";
 import axios from "axios";
 import moment from "moment";
+import "./style/stylesPemesanan.css"
 
 const Table = () => {
   let [pemesanan, setPemesanan] = useState([]);
   let [search, setSearch] = useState([]);
   let [searchNama, setSearchNama] = useState([]);
+  let [currentPage, setCurrentPage] = useState(1);
+  let [itemsPerPage, setItemsPerPage] = useState(3);
   let navigate = useNavigate();
 
   useEffect(() => {
@@ -29,7 +32,7 @@ const Table = () => {
         console.log(error);
       });
   }, []);
-  
+
   const handleCari = () => {
     let data = {
       tgl_check_in: search,
@@ -133,10 +136,24 @@ const Table = () => {
     // window.location.reload(false);
   }
 
+  // Pagination
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = pemesanan.slice(indexOfFirstItem, indexOfLastItem);
+
+  const pageNumbers = [];
+  for (let i = 1; i <= Math.ceil(pemesanan.length / itemsPerPage); i++) {
+    pageNumbers.push(i);
+  }
+
+  const paginate = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
+
   return (
     <div className="p-4 mt-14">
       <div className="flex items-center gap-5">
-      <div className="flex space-x-1">
+        <div className="flex space-x-1">
           <input
             type="date"
             id="default-search"
@@ -189,7 +206,7 @@ const Table = () => {
           </button>
         </div>
       </div>
-      
+
       <table className="p-4 w-full ">
         <thead className="text-left border-b-2 border-gray-200">
           {/* <th className='p-4'>No</th> */}
@@ -236,16 +253,53 @@ const Table = () => {
         </tbody>
       </table>
 
-      <div className="flex">
-        <div className="flex mt-14">
-          <p className="text-base text-gray">
-            Menampilkan{" "}
-            <span className="text-black">
-              {pemesanan !== undefined ? pemesanan?.length : ""}
-            </span>{" "}
-            Data
-          </p>
-        </div>
+      <div className="flex justify-center mt-4">
+        <ul className="pagination">
+          {currentPage > 1 && (
+            <li className="page-item">
+              <button
+                onClick={() => paginate(currentPage - 1)}
+                className="page-link"
+              >
+                {"<"}
+              </button>
+            </li>
+          )}
+
+          {pageNumbers.map((number) => (
+            <li key={number} className="page-item">
+              <button
+                onClick={() => paginate(number)}
+                className={`page-link ${
+                  currentPage === number ? "active-4" : ""
+                }`}
+              >
+                {number}
+              </button>
+            </li>
+          ))}
+
+          {currentPage < pageNumbers.length && (
+            <li className="page-item">
+              <button
+                onClick={() => paginate(currentPage + 1)}
+                className="page-link"
+              >
+                {">"}
+              </button>
+            </li>
+          )}
+        </ul>
+      </div>
+
+      <div className="flex mt-14">
+        <p className="text-base text-gray">
+          Menampilkan{" "}
+          <span className="text-black">
+            {pemesanan !== undefined ? pemesanan?.length : ""}
+          </span>{" "}
+          Data
+        </p>
       </div>
     </div>
   );

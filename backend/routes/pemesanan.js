@@ -177,7 +177,7 @@ app.post("/search", auth, (req, res) => {
       ],
     })
     .then((result) => {
-      console.log(tgl_check_in);
+      // console.log(tgl_check_in);
       res.json({
         pemesanan: result,
       });
@@ -189,7 +189,7 @@ app.post("/search", auth, (req, res) => {
     });
 });
 
-app.post("/", auth, async (req, res) => {
+app.post("/",  async (req, res) => {
   let tw = Date.now();
 
   let numberRandom = Math.floor(

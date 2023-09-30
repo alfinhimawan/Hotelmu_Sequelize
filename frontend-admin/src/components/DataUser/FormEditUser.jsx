@@ -133,7 +133,7 @@ const FormEditUser = () => {
             </label>
             <input
               onChange={(e) => setPassword(e.target.value)}
-              value={password}
+              // value={password}
               type=""
               name="checkIn"
               placeholder="Masukkan Password"
