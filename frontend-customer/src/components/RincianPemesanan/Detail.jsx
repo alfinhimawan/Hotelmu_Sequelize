@@ -19,7 +19,7 @@ const Detail = () => {
           console.log(res.data);
           setPemesanan(res.data);
         })
-        .catch((error) => {ggghn
+        .catch((error) => {
           console.log(error);
         });
     }
@@ -34,15 +34,6 @@ const Detail = () => {
   const totalPrice = arrPrice.reduce((acc, currentVal) => acc + currentVal, 0);
 
   console.log(totalPrice);
-
-  // function getDuration() {
-
-  //     const startDate = moment(pemesanan?.tgl_check_in).format('YYYY-MMM-DD');
-  //     const endDate = moment(pemesanan?.tgl_check_out).format('YYYY-MMM-DD');
-  //     const longStay = moment.duration(endDate.diff(startDate))
-
-  //     return longStay;
-  // }
 
   const formatStartDt = moment(pemesanan[0]?.tgl_check_in).format("YYYY-MM-DD");
   const formatEndDt = moment(pemesanan[0]?.tgl_check_out).format("YYYY-MM-DD");
@@ -61,7 +52,6 @@ const Detail = () => {
         <h1 className="text-xl font-semibold mb-4">Rincian Pemesanan</h1>
       </div>
 
-      {/* {pemesanan.map((pemesanan, index) => ( */}
       <div className="flex flex-col w-full bg-box p-4 rounded-lg my-6">
         <div className="flex p-4 ml-6 w-full">
           <div className="flex flex-col w-1/2">
@@ -75,6 +65,7 @@ const Detail = () => {
             </p>
           </div>
         </div>
+        {/* Lanjutan isi konten nota */}
         <div className="flex p-4 ml-6 w-full">
           <div className="flex flex-col w-1/2">
             <h1 className="text-sm text-gray">Email Pemesan</h1>
@@ -139,7 +130,6 @@ const Detail = () => {
           </div>
         </div>
       </div>
-      {/* ))} */}
 
       <div className="flex flex-col py-4">
         <h1 className="text-sm">Total Harga</h1>
@@ -154,23 +144,28 @@ const Detail = () => {
       <div className="flex w-full mt-4">
         <Link
           to="/riwayat"
-          className="w-1/2 h-[52px] sm:flex justify-center items-center primary-text primary-stroke rounded-lg hidden mr-4"
+          className="w-1/2 h-[52px] sm:flex justify-center items-center primary-text primary-stroke rounded-lg hidden-print mr-4"
         >
           kembali
         </Link>
         <button
           onClick={handlePrint}
-          className="w-1/2 h-[52px] sm:flex justify-center items-center text-white primary-bg rounded-lg hidden"
+          className="w-1/2 h-[52px] sm:flex justify-center items-center text-white primary-bg rounded-lg hidden-print"
         >
           Cetak
         </button>
       </div>
 
-      {/* <div>
-        <p className="text-lg text-gray mt-4 text-center">
-          Pastikan Semua Data Telah Terisi Dengan Benar
-        </p>
-      </div> */}
+      <style>
+        {`
+          @media print {
+            /* Semua elemen dengan class 'hidden-print' akan disembunyikan saat mencetak */
+            .hidden-print {
+              display: none !important;
+            }
+          }
+        `}
+      </style>
     </div>
   );
 };

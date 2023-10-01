@@ -22,7 +22,7 @@ const Navbar = () => {
     {/* Desktop Breakpoints */}
       <ul className='list-none sm:flex hidden justify-end items-center flex-1 mr-10'>
         {navLinks.map((nav, index) => (
-          <li key={nav.id} className={`font-poppins font-medium cursor-pointer text-[14px] ${index === navLinks.length - 1 ? 'mr-0' : 'mr-8'} text-gray`}>
+          <li key={nav.id} className={`font-poppins font-medium cursor-pointer text-[14px] ${index === navLinks.length - 1 ? 'mr-0' : 'mr-8'} text-gray hidden-print`}>
             <Link to={`${nav.to}`}>
               {nav.title}
             </Link>
@@ -37,7 +37,7 @@ const Navbar = () => {
           <div className={`${toggle ? 'flex' : 'hidden'} p-6 gray-bg absolute top-32 right-0 mx-4 my-2 min-w-[140px] rounded-xl sidebar`}>
             <ul className='list-none flex flex-col justify-end items-center flex-1'>
               {navLinks.map((nav, index) => (
-                <li key={nav.id} className={`font-poppins font-medium cursor-pointer text-[14px] ${index === navLinks.length - 1 ? 'mr-0' : 'mb-4'} text-gray`}>
+                <li key={nav.id} className={`font-poppins font-medium cursor-pointer text-[14px] ${index === navLinks.length - 1 ? 'mr-0' : 'mb-4'} text-gray hidden-print`}>
                   <Link to={`${nav.to}`}>
                     {nav.title}
                   </Link>
@@ -47,7 +47,7 @@ const Navbar = () => {
           </div>
       </div>
 
-      <button onClick={logout} className='w-[93px] h-[52px] text-white bg-alert rounded-lg hidden sm:block'>
+      <button onClick={logout} className='w-[93px] h-[52px] text-white bg-alert rounded-lg hidden-print sm:block'>
         Keluar
       </button>
     </nav>

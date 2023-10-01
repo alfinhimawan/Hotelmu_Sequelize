@@ -296,7 +296,7 @@ app.post("/",  async (req, res) => {
         return res.json({
           data: result,
           statusCode: res.statusCode,
-          message: "New user has been created",
+          message: "New booking has been created",
         });
       })
       .catch((error) => {
