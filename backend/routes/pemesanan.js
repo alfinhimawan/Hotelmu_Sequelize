@@ -307,33 +307,53 @@ app.post("/",  async (req, res) => {
   }
 });
 
-//edit data by id
 app.put("/:id", auth, (req, res) => {
   let param = {
     id_pemesanan: req.params.id,
   };
   let data = {
-    nomor_pemesanan: req.body.nomor_pemesanan,
-    nama_pemesanan: req.body.nama_pemesanan,
-    email_pemesanan: req.body.email_pemesanan,
-    tgl_pemesanan: req.body.tgl_pemesanan,
-    tgl_check_in: req.body.tgl_check_in,
-    tgl_check_out: req.body.tgl_check_out,
-    nama_tamu: req.body.nama_tamu,
-    jumlah_kamar: req.body.jumlah_kamar,
-    id_tipe_kamar: req.body.id_tipe_kamar,
     status_pemesanan: req.body.status_pemesanan,
-    id_user: req.body.id_user,
   };
+
+  // Lakukan validasi status di sini
   pemesanan
-    .update(data, { where: param })
-    .then((result) => {
-      res.json({
-        message: "data has been updated",
-      });
+    .findOne({ where: param })
+    .then((pemesanan) => {
+      if (!pemesanan) {
+        return res.status(404).json({
+          message: "Data not found",
+        });
+      }
+
+      // Cek apakah status saat ini adalah "check_out"
+      if (pemesanan.status_pemesanan === "check_out") {
+        return res.status(400).json({
+          message: "Status 'check_out' tidak dapat diubah kembali",
+        });
+      }
+
+      // Lakukan pembaruan status
+      pemesanan
+        .update(data, { where: param })
+        .then((result) => {
+          if (result[0] === 0) {
+            return res.status(404).json({
+              message: "Data not found",
+            });
+          } else {
+            return res.json({
+              message: "Data has been updated",
+            });
+          }
+        })
+        .catch((error) => {
+          return res.status(500).json({
+            message: error.message,
+          });
+        });
     })
     .catch((error) => {
-      res.json({
+      return res.status(500).json({
         message: error.message,
       });
     });

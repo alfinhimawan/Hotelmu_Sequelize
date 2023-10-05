@@ -71,7 +71,7 @@ const Form = () => {
         })
         .then((response) => {
           if (response.data.message === "Room not available!") {
-            window.alert("Booking o kamar lio sam, ");
+            window.alert("Sorry, rooms are not available");
             navigate("/cariKamar");
           } else {
             navigate("/riwayat");

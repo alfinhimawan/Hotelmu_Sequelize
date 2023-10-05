@@ -90,6 +90,14 @@ const Table = () => {
     }
   }
 
+  useEffect(() => {
+    const userRole = sessionStorage.getItem('role');
+    if (userRole !== 'admin') {
+      // Jika bukan admin, arahkan kembali ke halaman yang sesuai (misalnya, dataPemesanan)
+      navigate('/dataPemesanan');
+    }
+  }, [navigate]);
+
   // Pagination
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;

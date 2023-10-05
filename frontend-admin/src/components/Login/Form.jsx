@@ -5,10 +5,11 @@ import { logo } from '../../assets';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'; // Import FontAwesome
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons'; // Import ikon mata
 
+
 const Form = () => {
   let [email, setEmail] = useState('');
   let [password, setPassword] = useState('');
-  let [showPassword, setShowPassword] = useState(false); // State untuk menampilkan/menyembunyikan password
+  let [showPassword, setShowPassword] = useState(false);
   let navigate = useNavigate();
 
   function handleSubmit(event) {
@@ -31,10 +32,11 @@ const Form = () => {
           sessionStorage.setItem('id_user', res.data.data.id_user);
           sessionStorage.setItem('isLogin', "Login");
           if (res.data.data.role === "resepsionis") {
-            console.log(res.data.data.role);
             navigate('/dataPemesanan');
-          } else {
+          } else if (res.data.data.role === "admin") {
             navigate('/dataKamar');
+          } else {
+            navigate('/dataPemesanan'); // Pengguna dengan peran lainnya dialihkan ke dataPemesanan
           }
         } else {
           window.confirm("Email atau Password salah, silahkan coba lagi!");

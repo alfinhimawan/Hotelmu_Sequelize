@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { deleteData, editData } from "../../assets";
 import axios from "axios";
 import moment from "moment";
-import "./style/stylesPemesanan.css"
+import "./style/stylesPemesanan.css";
 
 const Table = () => {
   let [pemesanan, setPemesanan] = useState([]);
@@ -136,6 +136,8 @@ const Table = () => {
     // window.location.reload(false);
   }
 
+  
+
   // Pagination
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
@@ -148,6 +150,75 @@ const Table = () => {
 
   const paginate = (pageNumber) => {
     setCurrentPage(pageNumber);
+  };
+
+  // const handleStatusChange = (id, newStatus) => {
+  //   axios
+  //     .put(
+  //       `http://localhost:8080/pemesanan/${id}`,
+  //       { status_pemesanan: newStatus },
+  //       {
+  //         headers: {
+  //           Authorization: "Bearer " + sessionStorage.getItem("token"),
+  //         },
+  //       }
+  //     )
+  //     .then((response) => {
+  //       console.log(response);
+  //       // Pastikan bahwa state pemesanan diperbarui dengan nilai baru dari server
+  //       setPemesanan(updatedPemesanan);
+  //     })
+  //     .catch((error) => {
+  //       console.log(error);
+  //     });
+  // };
+
+  const handleStatusChange = (id, newStatus) => {
+    // Validasi perubahan status di sini
+    if (
+      (pemesanan.status_pemesanan === "check_out" &&
+        newStatus === "check_in") ||
+      (pemesanan.status_pemesanan === "check_in" && newStatus === "baru")
+    ) {
+      // Tampilkan pesan kesalahan jika perubahan tidak valid
+      console.error("Perubahan status tidak valid");
+      return;
+    }
+
+    axios
+      .put(
+        `http://localhost:8080/pemesanan/${id}`,
+        { status_pemesanan: newStatus },
+        {
+          headers: {
+            Authorization: "Bearer " + sessionStorage.getItem("token"),
+          },
+        }
+      )
+      .then((response) => {
+        console.log(response);
+        // Setelah permintaan PUT berhasil, perbarui state pemesanan
+        setPemesanan((prevPemesanan) => {
+          // Buat salinan data pemesanan yang diperbarui dari state sebelumnya
+          const updatedPemesanan = [...prevPemesanan];
+
+          // Temukan indeks pemesanan yang sesuai dengan ID
+          const pemesananIndex = updatedPemesanan.findIndex(
+            (item) => item.id_pemesanan === id
+          );
+
+          // Perbarui status pemesanan di dalam salinan data
+          if (pemesananIndex !== -1) {
+            updatedPemesanan[pemesananIndex].status_pemesanan = newStatus;
+          }
+
+          // Kembalikan salinan data yang diperbarui
+          return updatedPemesanan;
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   return (
@@ -239,11 +310,32 @@ const Table = () => {
               </td>
               <td className="p-4">{pemesanan.nama_tamu}</td>
               <td className="p-4">{pemesanan.jumlah_kamar}</td>
-              <td className="p-4">{pemesanan.status_pemesanan}</td>
+              <td className="p-4">
+                {/* Tombol status */}
+                <button
+                  className={`status-button ${
+                    pemesanan.status_pemesanan === "baru"
+                      ? "status-new"
+                      : pemesanan.status_pemesanan === "check_in"
+                      ? "status-check-in"
+                      : pemesanan.status_pemesanan === "check_out"
+                      ? "status-check-out"
+                      : ""
+                  }`}
+                  onClick={() =>
+                    handleStatusChange(
+                      pemesanan.id_pemesanan,
+                      pemesanan.status_pemesanan === "check_in"
+                        ? "check_out"
+                        : "check_in" // Toggle status
+                    )
+                  }
+                >
+                  {pemesanan.status_pemesanan}
+                </button>
+              </td>
+
               <td className="flex justify-start items-center p-6 my-auto">
-                <Link to={`/editPemesanan/${pemesanan.id_pemesanan}`}>
-                  <img className="w-4" src={editData} alt="" />
-                </Link>
                 <button onClick={() => Delete(pemesanan.id_pemesanan)}>
                   <img className="w-4 ml-2" src={deleteData} alt="" />
                 </button>
