@@ -70,8 +70,8 @@ const Form = () => {
           },
         })
         .then((response) => {
-          if (response.data.message === "Room not available!") {
-            window.alert("Sorry, rooms are not available");
+          if (response.data.message === "Sorry sir/madam. The room you have chosen is currently not available") {
+            window.alert("Sorry sir/madam. The room you have chosen is currently not available");
             navigate("/cariKamar");
           } else {
             navigate("/riwayat");

@@ -10,7 +10,7 @@ const Table = () => {
   let [search, setSearch] = useState([]);
   let [searchNama, setSearchNama] = useState([]);
   let [currentPage, setCurrentPage] = useState(1);
-  let [itemsPerPage, setItemsPerPage] = useState(3);
+  let [itemsPerPage, setItemsPerPage] = useState(5);
   let navigate = useNavigate();
 
   useEffect(() => {
@@ -136,8 +136,6 @@ const Table = () => {
     // window.location.reload(false);
   }
 
-  
-
   // Pagination
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
@@ -185,10 +183,11 @@ const Table = () => {
       return;
     }
 
+        
     axios
       .put(
         `http://localhost:8080/pemesanan/${id}`,
-        { status_pemesanan: newStatus },
+        { status_pemesanan: newStatus, id_user:sessionStorage.getItem("id_user") },
         {
           headers: {
             Authorization: "Bearer " + sessionStorage.getItem("token"),
@@ -334,8 +333,12 @@ const Table = () => {
                   {pemesanan.status_pemesanan}
                 </button>
               </td>
-
               <td className="flex justify-start items-center p-6 my-auto">
+                {/* <td className="flex justify-start items-center p-6 my-auto">
+                  <Link to={`/editPemesanan/${pemesanan.id_pemesanan}`}>
+                    <img className="w-4" src={editData} alt="" />
+                  </Link>
+                </td> */}
                 <button onClick={() => Delete(pemesanan.id_pemesanan)}>
                   <img className="w-4 ml-2" src={deleteData} alt="" />
                 </button>

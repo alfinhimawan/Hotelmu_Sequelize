@@ -35,19 +35,28 @@ app.get("/", auth, (req,res) => {
 })
 
 //get data by id
-app.get("/:id", auth, (req, res) =>{
-    kamar.findOne({ where: {id_kamar: req.params.id}})
-    .then(result => {
-        res.json({
-            kamar: result
+app.get("/:id", auth, (req, res) => {
+    kamar.findOne({ where: { id_kamar: req.params.id } })
+        .then(result => {
+            if (result) {
+                res.json({
+                    status: "success",
+                    kamar: result
+                });
+            } else {
+                res.status(404).json({
+                    status: "error",
+                    message: "Kamar tidak ditemukan"
+                });
+            }
         })
-    })
-    .catch(error => {
-        res.json({
-            message: error.message
-        })
-    })
-})
+        .catch(error => {
+            res.status(500).json({
+                status: "error",
+                message: error.message
+            });
+        });
+});
 
 //search data by nomor_kamar
 app.post("/search", auth, (req, res) => {
@@ -70,67 +79,98 @@ app.post("/search", auth, (req, res) => {
           message: error.message,
         });
       });
-  });
+});
 
 //post data
-app.post("/", auth, (req,res) => {
-    let data = {
-        nomor_kamar : req.body.nomor_kamar,
-        id_tipe_kamar : req.body.id_tipe_kamar
-    }
+app.post("/", auth, async (req, res) => {
+    try {
+        const existingKamar = await kamar.findOne({ where: { nomor_kamar: req.body.nomor_kamar } });
 
-    kamar.create(data)
-        .then(result => {
+        if (existingKamar) {
             res.json({
-                message: "data has been inserted"
-            })
-        })
-        .catch(error => {
+                message: "Nomor kamar sudah ada"
+            });
+        } else {
+            const data = {
+                nomor_kamar: req.body.nomor_kamar,
+                id_tipe_kamar: req.body.id_tipe_kamar
+            };
+
+            const createdKamar = await kamar.create(data);
+
             res.json({
-                message: error.message
-            })
-        })
-})
+                message: "Selesai Menambahkan Data Baru?",
+                kamar: createdKamar
+            });
+        }
+    } catch (error) {
+        res.status(500).json({
+            message: error.message
+        });
+    }
+});
 
 //edit data by id
-app.put("/:id", auth, (req,res) => {
-    let param = {
-        id_kamar : req.params.id
-    }
-    let data = {
-        nomor_kamar : req.body.nomor_kamar,
-        id_tipe_kamar : req.body.id_tipe_kamar
-    }
-    kamar.update(data, {where: param})
-        .then(result => {
+app.put("/:id", auth, async (req, res) => {
+    try {
+        const existingKamar = await kamar.findOne({ where: { nomor_kamar: req.body.nomor_kamar } });
+
+        if (existingKamar && existingKamar.id_kamar != req.params.id) {
             res.json({
-                message: "data has been updated"
-            })
-        })
-        .catch(error => {
-            res.json({
-                message: error.message
-            })
-        })
-})
+                message: "Nomor kamar sudah ada"
+            });
+        } else {
+            let param = {
+                id_kamar: req.params.id
+            };
+            let data = {
+                nomor_kamar: req.body.nomor_kamar,
+                id_tipe_kamar: req.body.id_tipe_kamar
+            };
+            const result = await kamar.update(data, { where: param });
+
+            if (result[0] === 1) {
+                res.json({
+                    message: "Selesai Mengupdate Data"
+                });
+            } else {
+                res.status(404).json({
+                    message: "Kamar tidak ditemukan"
+                });
+            }
+        }
+    } catch (error) {
+        res.status(500).json({
+            message: error.message
+        });
+    }
+});
 
 //delete data by id
-app.delete("/:id", auth, (req,res) => {
+app.delete("/:id", auth, (req, res) => {
     let param = {
-        id_kamar : req.params.id
+        id_kamar: req.params.id
     }
-    kamar.destroy({where: param})
+    kamar.destroy({ where: param })
         .then(result => {
-            res.json({
-                message: "data has been deleted"
-            })
+            if (result === 1) {
+                res.json({
+                    status: "success",
+                    message: "Data has been deleted"
+                });
+            } else {
+                res.status(404).json({
+                    status: "error",
+                    message: "Kamar tidak ditemukan"
+                });
+            }
         })
         .catch(error => {
-            res.json({
+            res.status(500).json({
+                status: "error",
                 message: error.message
-            })
-        })
-})
-
+            });
+        });
+});
 
 module.exports = app

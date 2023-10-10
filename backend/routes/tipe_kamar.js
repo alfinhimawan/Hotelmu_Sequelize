@@ -54,12 +54,21 @@ app.get("/:id", auth, (req, res) => {
   tipe_kamar
     .findOne({ where: { id_tipe_kamar: req.params.id } })
     .then((result) => {
-      res.json({
-        kamar: result,
-      });
+      if (result) {
+        res.json({
+          status: "success",
+          kamar: result,
+        });
+      } else {
+        res.status(404).json({
+          status: "error",
+          message: "Tipe kamar tidak ditemukan",
+        });
+      }
     })
     .catch((error) => {
-      res.json({
+      res.status(500).json({
+        status: "error",
         message: error.message,
       });
     });
@@ -88,47 +97,62 @@ app.post("/search", auth, (req, res) => {
 });
 
 //post data
-app.post("/", upload.single("foto"), auth, (req, res) => {
-  if (!req.file) {
-    res.json({
-      message: "No uploaded file",
+app.post("/", upload.single("foto"), auth, async (req, res) => {
+  try {
+    const existingTipeKamar = await tipe_kamar.findOne({
+      where: { nama_tipe_kamar: req.body.nama_tipe_kamar },
     });
-  } else {
+
+    if (existingTipeKamar) {
+      return res.status(400).json({ message: "Nama tipe kamar sudah ada" });
+    }
+
+    if (!req.file) {
+      return res.json({ message: "No uploaded file" });
+    }
+
     let data = {
       nama_tipe_kamar: req.body.nama_tipe_kamar,
       harga: req.body.harga,
       deskripsi: req.body.deskripsi,
       foto: req.file.filename,
     };
-    tipe_kamar
-      .create(data)
-      .then((result) => {
-        res.json({
-          message: "data has been inserted",
-        });
-      })
-      .catch((error) => {
-        res.json({
-          message: error.message,
-        });
-      });
+
+    const newTipeKamar = await tipe_kamar.create(data);
+
+    if (newTipeKamar) {
+      return res.json({ message: "data has been inserted" });
+    } else {
+      return res.status(500).json({ message: "Gagal menambahkan data" });
+    }
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
   }
 });
 
 //edit data by id
-app.put("/:id", upload.single("foto"), auth, (req, res) => {
-  let param = { id_tipe_kamar: req.params.id };
-  let data = {
-    nama_tipe_kamar: req.body.nama_tipe_kamar,
-    harga: req.body.harga,
-    deskripsi: req.body.deskripsi,
-  };
-  if (req.file) {
-    // get data by id
-    const row = tipe_kamar
-      .findOne({ where: param })
-      .then((result) => {
-        let oldFileName = result.image;
+app.put("/:id", upload.single("foto"), auth, async (req, res) => {
+  try {
+    const param = { id_tipe_kamar: req.params.id };
+    const existingTipeKamar = await tipe_kamar.findOne({
+      where: { nama_tipe_kamar: req.body.nama_tipe_kamar },
+    });
+
+    if (existingTipeKamar && existingTipeKamar.id_tipe_kamar !== req.params.id) {
+      return res.status(400).json({ message: "Nama tipe kamar sudah ada" });
+    }
+
+    const data = {
+      nama_tipe_kamar: req.body.nama_tipe_kamar,
+      harga: req.body.harga,
+      deskripsi: req.body.deskripsi,
+    };
+
+    if (req.file) {
+      // get data by id
+      const result = await tipe_kamar.findOne({ where: param });
+      if (result) {
+        let oldFileName = result.foto;
 
         // delete old file
         let dir = path.join(
@@ -137,27 +161,24 @@ app.put("/:id", upload.single("foto"), auth, (req, res) => {
           oldFileName
         );
         fs.unlink(dir, (err) => console.log(err));
-      })
-      .catch((error) => {
-        console.log(error.message);
-      });
 
-    // set new filename
-    data.foto = req.file.filename;
-  }
+        // set new filename
+        data.foto = req.file.filename;
+      }
+    }
 
-  tipe_kamar
-    .update(data, { where: param })
-    .then((result) => {
-      res.json({
+    const updatedTipeKamar = await tipe_kamar.update(data, { where: param });
+
+    if (updatedTipeKamar[0] === 1) {
+      return res.json({
         message: "data has been updated",
       });
-    })
-    .catch((error) => {
-      res.json({
-        message: error.message,
-      });
-    });
+    } else {
+      return res.status(500).json({ message: "Gagal memperbarui data" });
+    }
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
+  }
 });
 
 //delete data by id
@@ -168,12 +189,21 @@ app.delete("/:id", auth, (req, res) => {
   tipe_kamar
     .destroy({ where: param })
     .then((result) => {
-      res.json({
-        message: "data has been deleted",
-      });
+      if (result === 1) {
+        res.json({
+          status: "success",
+          message: "Data has been deleted",
+        });
+      } else {
+        res.status(404).json({
+          status: "error",
+          message: "Tipe kamar tidak ditemukan",
+        });
+      }
     })
     .catch((error) => {
-      res.json({
+      res.status(500).json({
+        status: "error",
         message: error.message,
       });
     });
