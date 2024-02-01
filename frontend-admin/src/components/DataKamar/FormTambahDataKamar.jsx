@@ -16,7 +16,7 @@ const FormDataKamar = () => {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:8080/tipe_kamar`, {
+      .get(`http://localhost:8081/tipe_kamar`, {
         headers: { Authorization: "Bearer " + sessionStorage.getItem("token") },
       })
       .then((res) => {
@@ -30,7 +30,7 @@ const FormDataKamar = () => {
 
   function AddData(event) {
     event.preventDefault();
-    let url = "http://localhost:8080/kamar";
+    let url = "http://localhost:8081/kamar";
 
     let data = {
       nomor_kamar: nomorKamar,

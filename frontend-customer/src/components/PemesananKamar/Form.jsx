@@ -49,7 +49,7 @@ const Form = () => {
   function addPemesanan(e) {
     e.preventDefault();
 
-    let url = "http://localhost:8080/pemesanan";
+    let url = "http://localhost:8081/pemesanan";
 
     let data = {
       id_customer: sessionStorage.getItem("id_customer"),

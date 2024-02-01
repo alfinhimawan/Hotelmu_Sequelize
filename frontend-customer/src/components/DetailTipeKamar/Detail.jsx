@@ -22,7 +22,7 @@ const Detail = () => {
     // }, [])
 
     useEffect(() => {
-        axios.get(`http://localhost:8080/tipe_kamar/${id}`, {
+        axios.get(`http://localhost:8081/tipe_kamar/${id}`, {
             headers : {'Authorization' : 'Bearer ' + sessionStorage.getItem('token')}
         })
         .then(res => {
@@ -36,7 +36,7 @@ const Detail = () => {
     }, [])
     
     useEffect(() => {
-        axios.get(`http://localhost:8080/tipe_kamar/${id}`, {
+        axios.get(`http://localhost:8081/tipe_kamar/${id}`, {
             headers : {'Authorization' : 'Bearer ' + sessionStorage.getItem('token')}
         })
         .then(res => {
@@ -76,7 +76,7 @@ const Detail = () => {
   return (
     <div className='flex flex-col mt-20'>
         <div className='flex justify-between'>
-            <img className='w-full h-96 object-cover object-center rounded-lg' src={`http://localhost:8080/image/tipe_kamar/${tipeKamar.foto}`} alt="room1" />
+            <img className='w-full h-96 object-cover object-center rounded-lg' src={`http://localhost:8081/image/tipe_kamar/${tipeKamar.foto}`} alt="room1" />
             {/* <img className='w-[396px] object-cover' src={room2} alt="room2" /> */}
         </div>
 

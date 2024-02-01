@@ -21,7 +21,7 @@ const Table = () => {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:8080/pemesanan`, {
+      .get(`http://localhost:8081/pemesanan`, {
         headers: { Authorization: "Bearer " + sessionStorage.getItem("token") },
       })
       .then((res) => {
@@ -38,7 +38,7 @@ const Table = () => {
       tgl_check_in: search,
     };
     axios
-      .post(`http://localhost:8080/pemesanan/search`, data, {
+      .post(`http://localhost:8081/pemesanan/search`, data, {
         headers: {
           Authorization: "Bearer " + sessionStorage.getItem("token"),
         },
@@ -57,7 +57,7 @@ const Table = () => {
       nama_tamu: searchNama,
     };
     axios
-      .post(`http://localhost:8080/pemesanan/findByNamaTamu`, data, {
+      .post(`http://localhost:8081/pemesanan/findByNamaTamu`, data, {
         headers: {
           Authorization: "Bearer " + sessionStorage.getItem("token"),
         },
@@ -76,7 +76,7 @@ const Table = () => {
       handleCari();
     } else if (search === "") {
       axios
-        .get(`http://localhost:8080/pemesanan`, {
+        .get(`http://localhost:8081/pemesanan`, {
           headers: {
             Authorization: "Bearer " + sessionStorage.getItem("token"),
           },
@@ -96,7 +96,7 @@ const Table = () => {
       handleSearchByName();
     } else if (searchNama === "") {
       axios
-        .get(`http://localhost:8080/pemesanan`, {
+        .get(`http://localhost:8081/pemesanan`, {
           headers: {
             Authorization: "Bearer " + sessionStorage.getItem("token"),
           },
@@ -112,7 +112,7 @@ const Table = () => {
   }, [searchNama]);
 
   function Delete(id) {
-    let url = "http://localhost:8080/pemesanan/" + id;
+    let url = "http://localhost:8081/pemesanan/" + id;
     if (window.confirm("Apakah Anda Yakin Untuk Menghapus Data?")) {
       // console.log(id)
       axios
@@ -153,7 +153,7 @@ const Table = () => {
   // const handleStatusChange = (id, newStatus) => {
   //   axios
   //     .put(
-  //       `http://localhost:8080/pemesanan/${id}`,
+  //       `http://localhost:8081/pemesanan/${id}`,
   //       { status_pemesanan: newStatus },
   //       {
   //         headers: {
@@ -183,10 +183,9 @@ const Table = () => {
       return;
     }
 
-        
     axios
       .put(
-        `http://localhost:8080/pemesanan/${id}`,
+        `http://localhost:8081/pemesanan/${id}`,
         { status_pemesanan: newStatus, id_user:sessionStorage.getItem("id_user") },
         {
           headers: {

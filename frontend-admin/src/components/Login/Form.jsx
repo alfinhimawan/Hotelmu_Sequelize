@@ -14,7 +14,7 @@ const Form = () => {
 
   function handleSubmit(event) {
     event.preventDefault();
-    let url = "http://localhost:8080/user/auth";
+    let url = "http://localhost:8081/user/auth";
 
     let data = {
       email: email,

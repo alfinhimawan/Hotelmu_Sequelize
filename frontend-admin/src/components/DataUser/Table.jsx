@@ -19,7 +19,7 @@ const Table = () => {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:8080/user`, {
+      .get(`http://localhost:8081/user`, {
         headers: { Authorization: "Bearer " + sessionStorage.getItem("token") },
       })
       .then((res) => {
@@ -44,7 +44,7 @@ const Table = () => {
       nama_user: search,
     };
     axios
-      .post(`http://localhost:8080/user/search`, data, {
+      .post(`http://localhost:8081/user/search`, data, {
         headers: {
           Authorization: "Bearer " + sessionStorage.getItem("token"),
         },
@@ -62,7 +62,7 @@ const Table = () => {
       handleCari();
     } else if (search === "") {
       axios
-        .get(`http://localhost:8080/user`, {
+        .get(`http://localhost:8081/user`, {
           headers: {
             Authorization: "Bearer " + sessionStorage.getItem("token"),
           },
@@ -78,7 +78,7 @@ const Table = () => {
   }, [search]);
 
   function Delete(id) {
-    let url = "http://localhost:8080/user/" + id;
+    let url = "http://localhost:8081/user/" + id;
     if (window.confirm("Apakah Anda Yakin Untuk Menghapus Data?")) {
       axios
         .delete(url, {
@@ -179,7 +179,7 @@ const Table = () => {
               <td className="p-4 ">
                 <img
                   className="w-14 rounded-full"
-                  src={`http://localhost:8080/image/user/${user.foto}`}
+                  src={`http://localhost:8081/image/user/${user.foto}`}
                   alt=""
                 />
               </td>

@@ -10,7 +10,7 @@ const ListPemesanan = () => {
   let [riwayat, setRiwayat] = useState()
   useEffect(() => {
     let id_customer = window.sessionStorage.getItem("id_customer")
-    axios.get(`http://localhost:8080/pemesanan/findById/${id_customer}`, {
+    axios.get(`http://localhost:8081/pemesanan/findById/${id_customer}`, {
         headers : {'Authorization' : 'Bearer ' + sessionStorage.getItem('token')}
     })
     .then(res => {
@@ -27,7 +27,7 @@ const handleCari = () => {
     tgl_pemesanan: search,
   };
   axios
-    .post(`http://localhost:8080/pemesanan/findByTglPemesanan`, data, {
+    .post(`http://localhost:8081/pemesanan/findByTglPemesanan`, data, {
       headers: {
         Authorization: "Bearer " + sessionStorage.getItem("token"),
       },
@@ -48,7 +48,7 @@ useEffect(() => {
   } else {
     // Jika 'search' kosong, ambil semua data pemesanan
     axios
-      .get(`http://localhost:8080/pemesanan`, {
+      .get(`http://localhost:8081/pemesanan`, {
         headers: {
           Authorization: "Bearer " + sessionStorage.getItem("token"),
         },

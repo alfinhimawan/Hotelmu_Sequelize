@@ -19,7 +19,7 @@ const Table = () => {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:8080/tipe_kamar`, {
+      .get(`http://localhost:8081/tipe_kamar`, {
         headers: { Authorization: "Bearer " + sessionStorage.getItem("token") },
       })
       .then((res) => {
@@ -36,7 +36,7 @@ const Table = () => {
       nama_tipe_kamar: search,
     };
     axios
-      .post(`http://localhost:8080/tipe_kamar/search`, data, {
+      .post(`http://localhost:8081/tipe_kamar/search`, data, {
         headers: {
           Authorization: "Bearer " + sessionStorage.getItem("token"),
         },
@@ -55,7 +55,7 @@ const Table = () => {
       handleCari();
     } else if (search === "") {
       axios
-        .get(`http://localhost:8080/tipe_kamar`, {
+        .get(`http://localhost:8081/tipe_kamar`, {
           headers: {
             Authorization: "Bearer " + sessionStorage.getItem("token"),
           },
@@ -71,7 +71,7 @@ const Table = () => {
   }, [search]);
 
   function Delete(id) {
-    let url = "http://localhost:8080/tipe_kamar/" + id;
+    let url = "http://localhost:8081/tipe_kamar/" + id;
     if (window.confirm("Apakah Anda Yakin Untuk Menghapus Data?")) {
       axios
         .delete(url, {
@@ -169,7 +169,7 @@ const Table = () => {
               <td className="p-4 ">
                 <img
                   className="w-14 rounded-full"
-                  src={`http://localhost:8080/image/tipe_kamar/${tipeKamar.foto}`}
+                  src={`http://localhost:8081/image/tipe_kamar/${tipeKamar.foto}`}
                   alt=""
                 />
               </td>

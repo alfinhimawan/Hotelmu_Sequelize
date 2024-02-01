@@ -19,7 +19,7 @@ const FormEditDataKamar = () => {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:8080/kamar/${id}`, {
+      .get(`http://localhost:8081/kamar/${id}`, {
         headers: { Authorization: 'Bearer ' + sessionStorage.getItem('token') },
       })
       .then((res) => {
@@ -34,7 +34,7 @@ const FormEditDataKamar = () => {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:8080/tipe_kamar`, {
+      .get(`http://localhost:8081/tipe_kamar`, {
         headers: { Authorization: 'Bearer ' + sessionStorage.getItem('token') },
       })
       .then((res) => {
@@ -53,7 +53,7 @@ const FormEditDataKamar = () => {
       id_tipe_kamar: idTipeKamar,
     };
     axios
-      .put(`http://localhost:8080/kamar/${id}`, data, {
+      .put(`http://localhost:8081/kamar/${id}`, data, {
         headers: { Authorization: 'Bearer ' + sessionStorage.getItem('token') },
       })
       .then((response) => {

@@ -13,7 +13,7 @@ const Form = () => {
 
   function Submit(event) {
     event.preventDefault();
-    let url = "http://localhost:8080/customer/auth";
+    let url = "http://localhost:8081/customer/auth";
     // console.warn(email, password)
 
     let data = {

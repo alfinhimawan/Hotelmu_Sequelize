@@ -21,7 +21,7 @@ const FormEditDataTipeKamar = () => {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:8080/tipe_kamar/${id}`, {
+      .get(`http://localhost:8081/tipe_kamar/${id}`, {
         headers: { Authorization: 'Bearer ' + sessionStorage.getItem('token') },
       })
       .then((res) => {
@@ -51,7 +51,7 @@ const FormEditDataTipeKamar = () => {
     formData.append('harga', harga);
     formData.append('deskripsi', deskripsi);
 
-    let url = `http://localhost:8080/tipe_kamar/${id}`;
+    let url = `http://localhost:8081/tipe_kamar/${id}`;
 
     axios
       .put(url, formData, {

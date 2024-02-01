@@ -34,7 +34,7 @@ const FormTambahDataKamar = () => {
     formData.append("harga", harga);
     formData.append("deskripsi", deskripsi);
 
-    let url = "http://localhost:8080/tipe_kamar";
+    let url = "http://localhost:8081/tipe_kamar";
 
     axios
       .post(url, formData, {

@@ -21,7 +21,7 @@ const Search = () => {
 
   function AddData(event) {
     event.preventDefault();
-    let url = "http://localhost:8080/filter_kamar";
+    let url = "http://localhost:8081/filter_kamar";
 
     let data = {
       check_in_date: checkIn,

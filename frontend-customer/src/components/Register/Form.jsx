@@ -27,7 +27,7 @@ const Form = () => {
     formData.append("password", password);
     formData.append("foto", saveImage);
 
-    let url = "http://localhost:8080/customer";
+    let url = "http://localhost:8081/customer";
 
     axios
       .post(url, formData, {

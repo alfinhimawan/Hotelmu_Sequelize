@@ -10,7 +10,7 @@ const Detail = () => {
   useEffect(() => {
     if (id) {
       axios
-        .get(`http://localhost:8080/pemesanan/` + id, {
+        .get(`http://localhost:8081/pemesanan/` + id, {
           headers: {
             Authorization: "Bearer " + sessionStorage.getItem("token"),
           },

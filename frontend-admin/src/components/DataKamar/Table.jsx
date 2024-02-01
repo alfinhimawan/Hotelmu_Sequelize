@@ -19,7 +19,7 @@ const Table = () => {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:8080/kamar`, {
+      .get(`http://localhost:8081/kamar`, {
         headers: { Authorization: "Bearer " + sessionStorage.getItem("token") },
       })
       .then((res) => {
@@ -36,7 +36,7 @@ const Table = () => {
       nomor_kamar: search,
     };
     axios
-      .post(`http://localhost:8080/kamar/search`, data, {
+      .post(`http://localhost:8081/kamar/search`, data, {
         headers: {
           Authorization: "Bearer " + sessionStorage.getItem("token"),
         },
@@ -55,7 +55,7 @@ const Table = () => {
       handleCari();
     } else if (search === "") {
       axios
-        .get(`http://localhost:8080/kamar`, {
+        .get(`http://localhost:8081/kamar`, {
           headers: {
             Authorization: "Bearer " + sessionStorage.getItem("token"),
           },
@@ -71,7 +71,7 @@ const Table = () => {
   }, [search]);
 
   function Delete(id) {
-    let url = "http://localhost:8080/kamar/" + id;
+    let url = "http://localhost:8081/kamar/" + id;
     if (window.confirm("Apakah Anda Yakin Untuk Menghapus Data?")) {
       axios
         .delete(url, {

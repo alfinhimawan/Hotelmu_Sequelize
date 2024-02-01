@@ -183,66 +183,110 @@ app.post("/", upload.single("foto"), async (req, res) => {
 });
 
 // Mendefinisikan endpoint PUT '/:id' untuk mengubah data pengguna dengan ID tertentu, dengan middleware 'upload.single("foto")' untuk mengunggah satu file gambar dan middleware 'auth' untuk autentikasi
-app.put("/:id", upload.single("foto"), auth, async (req, res) => {
-  try {
-    // Mencari apakah ada pengguna dengan nama pengguna yang sama dalam database
-    const existingUser = await user.findOne({
-      where: { nama_user: req.body.nama_user },
-    });
+// app.put("/:id", upload.single("foto"),  async (req, res) => {
+//   try {
+//     // Mencari apakah ada pengguna dengan nama pengguna yang sama dalam database
+//     const existingUser = await user.findOne({
+//       where: { nama_user: req.body.nama_user },
+//     });
 
-    // Jika ada pengguna dengan nama pengguna yang sama dan ID pengguna tidak sama
-    if (existingUser && existingUser.id_user != req.params.id) {
-      return res.status(400).json({ message: "Nama pengguna sudah ada" });
-    }
+//     // Jika ada pengguna dengan nama pengguna yang sama dan ID pengguna tidak sama
+//     if (existingUser && existingUser.id_user != req.params.id) {
+//       return res.status(400).json({ message: "Nama pengguna sudah ada" });
+//     }
 
-    // Menyiapkan parameter pencarian berdasarkan ID pengguna yang akan diubah
-    let param = { id_user: req.params.id };
+//     // Menyiapkan parameter pencarian berdasarkan ID pengguna yang akan diubah
+//     let param = { id_user: req.params.id };
 
-    // Menyiapkan objek 'data' yang berisi data yang akan diubah pada pengguna
-    let data = {
-      nama_user: req.body.nama_user,
-      email: req.body.email,
-      role: req.body.role,
-    };
+//     // Menyiapkan objek 'data' yang berisi data yang akan diubah pada pengguna
+//     let data = {
+//       nama_user: req.body.nama_user,
+//       email: req.body.email,
+//       role: req.body.role,
+//     };
 
-    // Jika ada file gambar yang diunggah
-    if (req.file) {
-      // Mencari data pengguna berdasarkan ID
-      const result = await user.findOne({ where: param });
-      if (result) {
-        let oldFileName = result.image;
+//     // Jika ada file gambar yang diunggah
+//     if (req.file) {
+//       // Mencari data pengguna berdasarkan ID
+//       const result = await user.findOne({ where: param });
+//       if (result) {
+//         let oldFileName = result.image;
 
-        // Menghapus file gambar lama
-        let dir = path.join(__dirname, "../backend/image/user", oldFileName);
-        fs.unlink(dir, (err) => {
-          if (err) console.log(err);
-        });
-      }
+//         // Menghapus file gambar lama
+//         let dir = path.join(__dirname, "../backend/image/user", oldFileName);
+//         fs.unlink(dir, (err) => {
+//           if (err) console.log(err);
+//         });
+//       }
 
-      // Mengatur nama file gambar yang baru
-      data.foto = req.file.filename;
-    }
+//       // Mengatur nama file gambar yang baru
+//       data.foto = req.file.filename;
+//     }
 
-    // Jika ada perubahan password, meng-hash password yang baru menggunakan md5
-    if (req.body.password) {
-      data.password = md5(req.body.password);
-    }
+//     // Jika ada perubahan password, meng-hash password yang baru menggunakan md5
+//     if (req.body.password) {
+//       data.password = md5(req.body.password);
+//     }
 
-    // Melakukan pembaruan data pengguna dalam database berdasarkan ID pengguna
-    const updateResult = await user.update(data, { where: param });
+//     // Melakukan pembaruan data pengguna dalam database berdasarkan ID pengguna
+//     const updateResult = await user.update(data, { where: param });
 
-    // Jika pembaruan berhasil, kembalikan respon sukses
-    if (updateResult[0]) {
-      return res.json({ message: "Selesai Update Data?" });
-    } else {
-      // Jika pembaruan gagal, kembalikan respon dengan status 500 (Internal Server Error)
-      return res.status(500).json({ message: "Gagal memperbarui data" });
-    }
-  } catch (error) {
-    // Tangkap dan tangani kesalahan jika terjadi
-    return res.status(500).json({ message: error.message });
+//     // Jika pembaruan berhasil, kembalikan respon sukses
+//     if (updateResult[0]) {
+//       return res.json({ message: "Selesai Update Data?" });
+//     } else {
+//       // Jika pembaruan gagal, kembalikan respon dengan status 500 (Internal Server Error)
+//       return res.status(500).json({ message: "Gagal memperbarui data" });
+//     }
+//   } catch (error) {
+//     // Tangkap dan tangani kesalahan jika terjadi
+//     return res.status(500).json({ message: error.message });
+//   }
+// });
+
+//edit data by id
+app.put("/:id", upload.single("foto"), auth, (req, res) =>{
+  let param = { id_user: req.params.id}
+  let data = {
+      nama_user : req.body.nama_user,
+      email : req.body.email,
+      role : req.body.role
   }
-});
+  if (req.file) {
+      // get data by id
+      const row = user.findOne({where: param})
+      .then(result => {
+          let oldFileName = result.image
+         
+          // delete old file
+          let dir = path.join(__dirname,"../backend/image/user",oldFileName)
+          fs.unlink(dir, err => console.log(err))
+      })
+      .catch(error => {
+          console.log(error.message);
+      })
+
+      // set new filename
+      data.foto = req.file.filename
+  }
+
+  if(req.body.password){
+      data.password = md5(req.body.password)
+  }
+
+  user.update(data, {where: param})
+      .then(result => {
+          res.json({
+              message: "data has been updated",
+          })
+      })
+      .catch(error => {
+          res.json({
+              message: error.message
+          })
+      })
+})
+
 
 // Mendefinisikan endpoint DELETE '/:id' untuk menghapus data pengguna dengan ID tertentu, dengan middleware 'auth' untuk autentikasi
 app.delete("/:id", auth, (req, res) => {

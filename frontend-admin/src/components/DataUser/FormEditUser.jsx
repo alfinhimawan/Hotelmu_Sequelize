@@ -24,7 +24,7 @@ const FormEditUser = () => {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:8080/user/${id}`, {
+      .get(`http://localhost:8081/user/${id}`, {
         headers: { Authorization: "Bearer " + sessionStorage.getItem("token") },
       })
       .then((res) => {
@@ -55,7 +55,7 @@ const FormEditUser = () => {
     formData.append("password", password);
     formData.append("role", role);
   
-    let url = `http://localhost:8080/user/${id}`;
+    let url = `http://localhost:8081/user/${id}`;
   
     axios
       .put(url, formData, {

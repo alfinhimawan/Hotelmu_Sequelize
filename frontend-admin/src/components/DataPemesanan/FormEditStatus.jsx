@@ -17,7 +17,7 @@ const FormEditStatus = () => {
       },[])
 
       useEffect(() => {
-        axios.get(`http://localhost:8080/pemesanan/${id}`, {
+        axios.get(`http://localhost:8081/pemesanan/${id}`, {
             headers : {'Authorization' : 'Bearer ' + sessionStorage.getItem('token')}
         })
         .then(res => {
@@ -35,7 +35,7 @@ const FormEditStatus = () => {
             status_pemesanan: ubahStatus,
         }
         if(window.confirm("Selesai Merubah Data?"))
-        axios.put(`http://localhost:8080/pemesanan/${id}`, data, {
+        axios.put(`http://localhost:8081/pemesanan/${id}`, data, {
           headers : {'Authorization' : 'Bearer ' + sessionStorage.getItem('token')}
         })
         .then(res => {

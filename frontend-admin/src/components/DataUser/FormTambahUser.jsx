@@ -25,7 +25,7 @@ const FormTambahUser = () => {
     formData.append("password", password);
     formData.append("role", role);
 
-    const url = "http://localhost:8080/user";
+    const url = "http://localhost:8081/user";
 
     axios
       .post(url, formData, {
